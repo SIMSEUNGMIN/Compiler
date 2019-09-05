@@ -1,0 +1,28 @@
+import java.io.FileWriter;
+import java.io.IOException;
+
+import noo2c.CmdExtractor;
+
+/**
+ * Created by eschough on 2019-09-02.
+ */
+public class NooToC {
+    CmdExtractor cmdExtractor;
+    FileWriter fw;
+    String nooPgm;
+
+	// init
+    public NooToC (FileWriter fw, String nooPgm) throws IOException {
+		/*
+		여기를 채우시오
+		*/
+    }
+
+
+	// translate cmd to C code for each case.
+    public  void translate(CmdExtractor.Cmds cmd) {
+        /*
+		여기를 채우시오
+		*/
+    }
+}

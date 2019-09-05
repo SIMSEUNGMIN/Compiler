@@ -1,0 +1,38 @@
+package noo2c;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+/**
+ * Created by eschough on 2019-09-02.
+ */
+ 
+// find command pattern from input, and convert it to cmd
+// CmdExtractor는 input으로부터 CMD pattern을 찾아 parsing
+
+public class  CmdExtractor {
+	public enum Cmds {
+		// pattern
+		CMD1("'\""), CMD2("'\"\""), CMD3("'\"\"\""), CMD4("'\"\"\"\""), CMD5("'\"\"\"\"\"");
+		
+		String matchedStr;
+		
+		private Cmds(String recvString){
+			this.matchedStr = recvString;
+		}
+    }
+	
+	NooToCTest nooToCTest;
+//	String testString = null;
+	
+	public void checkCmd(String testString) {
+		System.out.println("전달 : " + testString);
+	}
+	
+	
+	
+	/*
+		나머지 부분은 채워서 사용하시오. 	
+	*/
+}

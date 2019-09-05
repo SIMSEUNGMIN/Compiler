@@ -1,0 +1,44 @@
+package noo2c;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Created by eschough on 2019-09-02.
+ */
+
+public class NooToC {
+    CmdExtractor cmdExtractor;
+    FileWriter fw;
+    String nooPgm;
+    StringBuilder str = null;
+
+	// init
+    public NooToC (FileWriter fw, String nooPgm) throws IOException {
+		this.fw = fw;
+		this.nooPgm = nooPgm;
+		//들어온 파일의 입력에 대한 CmdExtractor객체를 생성
+		this.cmdExtractor = new CmdExtractor(this.nooPgm);
+		//파일에 쓸 앞 부분
+		str.append("#include<stdio.h>\n"
+				+ "int main(){\n"
+				+ "int r, t1;");
+    }
+
+	// translate cmd to C code for each case.
+    public void translate(CmdExtractor.Cmds cmd) {
+    	
+       
+    	if(cmd != CmdExtractor.Cmds.CMD3) {
+    		str.append("r = 0;");
+    		
+    	}
+    	else {
+    		
+    	}
+    }
+    
+    public CmdExtractor.Cmds next() {
+    	return CmdExtractor.checkTheCmd();
+    }
+}
