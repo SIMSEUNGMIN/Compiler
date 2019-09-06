@@ -26,14 +26,14 @@ public class NooToC {
     }
 
 	// translate cmd to C code for each case.
-    public void translateRecursively(CmdExtractor.Cmds cmd) {
+    public void translate(CmdExtractor.Cmds cmd) {
     	
     	if(cmd == CmdExtractor.Cmds.CMD1) {
-    		translateRecursively(next());
+    		translate(next());
     		str.append("print(\"%d\", r);\n");
     	}
     	else if(cmd == CmdExtractor.Cmds.CMD2) {
-    		translateRecursively(next());
+    		translate(next());
     		str.append("t1 = r;\n"
     				+ "r = t1 + 1;\n");
     	}
@@ -42,30 +42,28 @@ public class NooToC {
     		return;
     	}
     	else if(cmd == CmdExtractor.Cmds.CMD4) {
-    		translateRecursively(next());
-    		translateRecursively(next());
+    		translate(next());
+    		translate(next());
     	}
     	else if(cmd == CmdExtractor.Cmds.CMD5) {
-    		translateRecursively(next());
+    		translate(next());
     		str.append("t1 = r;\n"
     				+ "if(t1 != 0)\n"
     				+ "{\n");
     		
-    		translateRecursively(next());
+    		translate(next());
     		
     		str.append("}\n"
     				+ "else\n"
     				+ "{\n");
 
-    		translateRecursively(next());
+    		translate(next());
 
     		str.append("}\n");
     	}
     }
     
-    public void translate(CmdExtractor.Cmds cmd) {
-    	translateRecursively(cmd);
-    	
+    public void print() {
     	try {
     		fw.write(str.toString() + "return 1;\n" + "}\n");
     	} catch (IOException e) {
