@@ -12,16 +12,16 @@ public class NooToC {
     CmdExtractor cmdExtractor;
     FileWriter fw;
     String nooPgm;
-    //ÆÄÀÏ¿¡ ¾µ ¹®ÀÚ¿­À» ÃÊ±âÈ­
+    //íŒŒì¼ì— ì“¸ ë¬¸ìžì—´ì„ ì´ˆê¸°í™”
     StringBuilder str = new StringBuilder();
 
 	// init
     public NooToC (FileWriter fw, String nooPgm) throws IOException {
 		this.fw = fw;
 		this.nooPgm = nooPgm;
-		//µé¾î¿Â ÆÄÀÏÀÇ ÀÔ·Â¿¡ ´ëÇÑ CmdExtractor°´Ã¼¸¦ »ý¼º
+		//ë“¤ì–´ì˜¨ íŒŒì¼ì˜ ìž…ë ¥ì— ëŒ€í•œ CmdExtractorê°ì²´ë¥¼ ìƒì„±
 		this.cmdExtractor = new CmdExtractor(this.nooPgm);
-		//ÆÄÀÏ¿¡ ¾µ ¾Õ ºÎºÐ
+		//íŒŒì¼ì— ì“¸ ì•ž ë¶€ë¶„
 		str.append("#include<stdio.h>\n"
 				+ "int main(){\n"
 				+ "int r, t1;\n");
@@ -29,38 +29,38 @@ public class NooToC {
 
 	// translate cmd to C code for each case.
     public void translateRecursively(CmdExtractor.Cmds cmd) {
-    	//ÇØ´ç CMD¿¡ µû¸¥ ÇÊ¿äÇÑ ¹®ÀÚ¿­À» str¿¡ ºÙÀÌ°í ÇÊ¿ä½Ã Àç±Í¸¦ µ¹¸°´Ù.
-    	//Àç±Í´Â CMD3ÀÏ °æ¿ì ´õÀÌ»ó µ¹Áö ¾Ê°í µÇµ¹¾Æ °£´Ù.
+    	//í•´ë‹¹ CMDì— ë”°ë¥¸ í•„ìš”í•œ ë¬¸ìžì—´ì„ strì— ë¶™ì´ê³  í•„ìš”ì‹œ ìž¬ê·€ë¥¼ ëŒë¦°ë‹¤.
+    	//ìž¬ê·€ëŠ” CMD3ì¼ ê²½ìš° ë”ì´ìƒ ëŒì§€ ì•Šê³  ë˜ëŒì•„ ê°„ë‹¤.
     	
-    	//CMD1ÀÇ °æ¿ì ´ÙÀ½ CMD¸¦ È®ÀÎÇÒ ÇÊ¿ä°¡ ÀÖ±â ¶§¹®¿¡ ´ÙÀ½ CMD¿¡ ´ëÇÑ Àç±Í¸¦ µ¹¸®°í
-    	//±× ´ÙÀ½ print¹®À» str¿¡ ºÙÀÎ´Ù.
+    	//CMD1ì˜ ê²½ìš° ë‹¤ìŒ CMDë¥¼ í™•ì¸í•  í•„ìš”ê°€ ìžˆê¸° ë•Œë¬¸ì— ë‹¤ìŒ CMDì— ëŒ€í•œ ìž¬ê·€ë¥¼ ëŒë¦¬ê³ 
+    	//ê·¸ ë‹¤ìŒ printë¬¸ì„ strì— ë¶™ì¸ë‹¤.
     	if(cmd == CmdExtractor.Cmds.CMD1) {
     		translateRecursively(next());
     		str.append("print(\"%d\", r);\n");
     	}
-    	//CMD2ÀÇ °æ¿ì ´ÙÀ½ CMD¸¦ È®ÀÎÇÒ ÇÊ¿ä°¡ ÀÖ±â ¶§¹®¿¡ ´ÙÀ½ CMD¿¡ ´ëÇÑ Àç±Í¸¦ µ¹·Á¾ß ÇÑ´Ù.
-    	//±× ´ÙÀ½ 1À» Ãß°¡ÇÏ´Â ¹®ÀÚ¿­À» str¿¡ ºÙÀÎ´Ù.
+    	//CMD2ì˜ ê²½ìš° ë‹¤ìŒ CMDë¥¼ í™•ì¸í•  í•„ìš”ê°€ ìžˆê¸° ë•Œë¬¸ì— ë‹¤ìŒ CMDì— ëŒ€í•œ ìž¬ê·€ë¥¼ ëŒë ¤ì•¼ í•œë‹¤.
+    	//ê·¸ ë‹¤ìŒ 1ì„ ì¶”ê°€í•˜ëŠ” ë¬¸ìžì—´ì„ strì— ë¶™ì¸ë‹¤.
     	else if(cmd == CmdExtractor.Cmds.CMD2) {
     		translateRecursively(next());
     		str.append("t1 = r;\n"
     				+ "r = t1 + 1;\n");
     	}
-    	//CMD3´Â ´ÙÀ½ CMD¸¦ È®ÀÎÇÒ ÇÊ¿ä°¡ ¾ø´Ù. (Àç±ÍÀÇ Á¾·á Á¶°Ç)
-    	//µû¶ó¼­ CMD3¿¡ ÇØ´çÇÏ´Â ¼±¾ð¹®(r=0)¸¸ str¿¡ ºÙÀÌ°í ÇØ´ç CMD3¿¡ ´ëÇÑ Àç±Í¸¦ Á¾·áÇÑ´Ù.
+    	//CMD3ëŠ” ë‹¤ìŒ CMDë¥¼ í™•ì¸í•  í•„ìš”ê°€ ì—†ë‹¤. (ìž¬ê·€ì˜ ì¢…ë£Œ ì¡°ê±´)
+    	//ë”°ë¼ì„œ CMD3ì— í•´ë‹¹í•˜ëŠ” ì„ ì–¸ë¬¸(r=0)ë§Œ strì— ë¶™ì´ê³  í•´ë‹¹ CMD3ì— ëŒ€í•œ ìž¬ê·€ë¥¼ ì¢…ë£Œí•œë‹¤.
     	else if(cmd == CmdExtractor.Cmds.CMD3) {
     		str.append("r = 0;\n");
     		return;
     	}
-    	//CMD4´Â ´ÙÀ½ CMD 2°³¸¦ È®ÀÎÇÒ ÇÊ¿ä°¡ ÀÖ´Ù. (µÎ °³ÀÇ Á¶°ÇÀ» ´Ù ½ÇÇàÇØ¾ß ÇÏ±â ¶§¹®)
-    	//µû¶ó¼­ CMD4 ´ÙÀ½ 2°³ÀÇ CMD¿¡ ´ëÇÑ Àç±Í¸¦ µ¹¸°´Ù.
+    	//CMD4ëŠ” ë‹¤ìŒ CMD 2ê°œë¥¼ í™•ì¸í•  í•„ìš”ê°€ ìžˆë‹¤. (ë‘ ê°œì˜ ì¡°ê±´ì„ ë‹¤ ì‹¤í–‰í•´ì•¼ í•˜ê¸° ë•Œë¬¸)
+    	//ë”°ë¼ì„œ CMD4 ë‹¤ìŒ 2ê°œì˜ CMDì— ëŒ€í•œ ìž¬ê·€ë¥¼ ëŒë¦°ë‹¤.
     	else if(cmd == CmdExtractor.Cmds.CMD4) {
     		translateRecursively(next());
     		translateRecursively(next());
     	}
-    	//CMD5´Â ´ÙÀ½ CMD3°³¸¦ È®ÀÎ ÇØ¾ßÇÑ´Ù. (Á¶°ÇÀÌ 3°³ ºÙ±â ¶§¹®)
-    	//¸ÕÀú Ã¹¹ø Â° CMD¸¦ È®ÀÎÇÏ´Â Àç±Í¸¦ µ¹¸° ´ÙÀ½ if¹®¿¡ ´ëÇÑ ¹®ÀÚ¿­(if¹® ½ÃÀÛ)À» str¿¡ ºÙÀÎ´Ù.
-    	//±× ´ÙÀ½ µÎ¹ø Â° CMD¸¦ È®ÀÎÇÏ´Â Àç±Í¸¦ µ¹¸®°í else¿¡ ´ëÇÑ ¹®ÀÚ¿­(else¹® ½ÃÀÛ)À» str¿¡ ºÙÀÎ´Ù.
-    	//¸¶Áö¸·À¸·Î ¼¼¹ø Â° CMD¸¦ È®ÀÎÇÏ´Â Àç±Í¸¦ µ¹¸®°í else¹®À» Á¾·áÇÏ´Â ¹®ÀÚ¸¦ str¿¡ ºÙÀÎ´Ù.
+    	//CMD5ëŠ” ë‹¤ìŒ CMD3ê°œë¥¼ í™•ì¸ í•´ì•¼í•œë‹¤. (ì¡°ê±´ì´ 3ê°œ ë¶™ê¸° ë•Œë¬¸)
+    	//ë¨¼ì € ì²«ë²ˆ ì§¸ CMDë¥¼ í™•ì¸í•˜ëŠ” ìž¬ê·€ë¥¼ ëŒë¦° ë‹¤ìŒ ifë¬¸ì— ëŒ€í•œ ë¬¸ìžì—´(ifë¬¸ ì‹œìž‘)ì„ strì— ë¶™ì¸ë‹¤.
+    	//ê·¸ ë‹¤ìŒ ë‘ë²ˆ ì§¸ CMDë¥¼ í™•ì¸í•˜ëŠ” ìž¬ê·€ë¥¼ ëŒë¦¬ê³  elseì— ëŒ€í•œ ë¬¸ìžì—´(elseë¬¸ ì‹œìž‘)ì„ strì— ë¶™ì¸ë‹¤.
+    	//ë§ˆì§€ë§‰ìœ¼ë¡œ ì„¸ë²ˆ ì§¸ CMDë¥¼ í™•ì¸í•˜ëŠ” ìž¬ê·€ë¥¼ ëŒë¦¬ê³  elseë¬¸ì„ ì¢…ë£Œí•˜ëŠ” ë¬¸ìžë¥¼ strì— ë¶™ì¸ë‹¤.
     	else if(cmd == CmdExtractor.Cmds.CMD5) {
     		translateRecursively(next());
     		str.append("t1 = r;\n"
@@ -80,10 +80,10 @@ public class NooToC {
     }
     
     public void translate(CmdExtractor.Cmds cmd) {
-    	//µé°í¿Â CMD¸¦ °¡Áö°í Àç±Í¸¦ µ¹¸®´Â ÇÔ¼ö È£Ãâ
+    	//ë“¤ê³ ì˜¨ CMDë¥¼ ê°€ì§€ê³  ìž¬ê·€ë¥¼ ëŒë¦¬ëŠ” í•¨ìˆ˜ í˜¸ì¶œ
     	translateRecursively(cmd);
     	
-    	//Àç±Í¸¦ ´Ù µ¹¸®°í ³ª¸é ÆÄÀÏ¿¡ ¾µ µÞ ºÎºÐÀÎ return 1;°ú }À» Ãß°¡ÇØ¼­ ÆÄÀÏ¿¡ ¾´´Ù.
+    	//ìž¬ê·€ë¥¼ ë‹¤ ëŒë¦¬ê³  ë‚˜ë©´ íŒŒì¼ì— ì“¸ ë’· ë¶€ë¶„ì¸ return 1;ê³¼ }ì„ ì¶”ê°€í•´ì„œ íŒŒì¼ì— ì“´ë‹¤.
     	try {
     		fw.write(str.toString() + "return 1;\n" + "}\n");
     	} catch (IOException e) {
@@ -93,7 +93,7 @@ public class NooToC {
     }
 
     public CmdExtractor.Cmds next() {
-    	//CmdExtractor¿¡¼­ ¼ø¼­´ë·Î CMD ÇÏ³ª¸¦ °¡Á®¿Í¼­ ¸®ÅÏ 
+    	//CmdExtractorì—ì„œ ìˆœì„œëŒ€ë¡œ CMD í•˜ë‚˜ë¥¼ ê°€ì ¸ì™€ì„œ ë¦¬í„´ 
     	return CmdExtractor.checkTheCmd();
     }
 }

@@ -13,22 +13,22 @@ public class NooToCTest {
     public static void main(String[] args) {
     	String s = "";
     	
-    	//ÀĞ¾î¿Ã ÆÄÀÏ °æ·Î
-		//String filePath = "C:/Users/user/Desktop/PLASLAB/test1.noo";
-		String filePath = "C:/Users/user/Desktop/test1.noo";
+    	//ì½ì–´ì˜¬ íŒŒì¼ ê²½ë¡œ
+		String filePath = "C:/Users/user/Desktop/PLASLAB/test1.noo";
+		//String filePath = "C:/Users/user/Desktop/test1.noo";
     	try (FileInputStream fstream= new FileInputStream(filePath);){		
     		byte[] rb = new byte[fstream.available()];
     		while(fstream.read(rb) != -1) {}
     		fstream.close();
     		s = new String(rb);
     		
-    		//ÀĞ¾î¿Â °ª Ãâ·Â
+    		//ì½ì–´ì˜¨ ê°’ ì¶œë ¥
     		System.out.println("input : " + s);
     		
     	}catch(Exception e) {
     		e.getStackTrace();
     	}
-    	//¾µ ÆÄÀÏÀ» »ı¼º
+    	//ì“¸ íŒŒì¼ì„ ìƒì„±
     	try (FileWriter fw = new FileWriter("test.c");){
        		NooToC ntc = null;
     		ntc = new NooToC(fw,s);

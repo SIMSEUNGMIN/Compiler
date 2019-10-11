@@ -8,47 +8,47 @@ import java.util.regex.Matcher;
  */
  
 // find command pattern from input, and convert it to cmd
-// CmdExtractor´Â inputÀ¸·ÎºÎÅÍ CMD patternÀ» Ã£¾Æ parsing
+// CmdExtractorëŠ” inputìœ¼ë¡œë¶€í„° CMD patternì„ ì°¾ì•„ parsing
 
 public class  CmdExtractor {
 	public enum Cmds {
-		// pattern (¸í·É¾î¸¦ »ó¼öÈ­)
-		CMD1("'\""), //Ãâ·ÂÇÏ°í ¸®ÅÏ
-		CMD2("'\"\""), //+1ÇÏ°í ¸®ÅÏ
-		CMD3("'\"\"\""), //0À» ¸®ÅÏ
-		CMD4("'\"\"\"\""), //x ¼öÇà, ´ÙÀ½ y ¼öÇà, y°á°ú ¸®ÅÏ
-		CMD5("'\"\"\"\"\""); //x°¡  0ÀÌ ¾Æ´Ò¶§ yÃâ·Â, ¸®ÅÏ ,0ÀÌ¸é zÃâ·Â, ¸®ÅÏ
+		// pattern (ëª…ë ¹ì–´ë¥¼ ìƒìˆ˜í™”)
+		CMD1("'\""), //ì¶œë ¥í•˜ê³  ë¦¬í„´
+		CMD2("'\"\""), //+1í•˜ê³  ë¦¬í„´
+		CMD3("'\"\"\""), //0ì„ ë¦¬í„´
+		CMD4("'\"\"\"\""), //x ìˆ˜í–‰, ë‹¤ìŒ y ìˆ˜í–‰, yê²°ê³¼ ë¦¬í„´
+		CMD5("'\"\"\"\"\""); //xê°€  0ì´ ì•„ë‹ë•Œ yì¶œë ¥, ë¦¬í„´ ,0ì´ë©´ zì¶œë ¥, ë¦¬í„´
 		
 		String matchedStr;
 		
-		//enum »ı¼ºÀÚ
+		//enum ìƒì„±ì
 		private Cmds(String recvString){
 			//this.matchedStr = recvString;
 		}
     }
 	
-	//ÆÄÀÏ¿¡¼­ ÀĞ¾î¿Â ¹®ÀÚ¿­
+	//íŒŒì¼ì—ì„œ ì½ì–´ì˜¨ ë¬¸ìì—´
 	String testString = null;
-	//¹®ÀÚ¿­¿¡¼­ pattern°ú ÀÏÄ¡ÇÏ´Â ¹®ÀÚ¿­À» Ã£´Â matcher
+	//ë¬¸ìì—´ì—ì„œ patternê³¼ ì¼ì¹˜í•˜ëŠ” ë¬¸ìì—´ì„ ì°¾ëŠ” matcher
 	static Matcher matcher = null;
 	
-	//°´Ã¼°¡ »ı¼ºµÇ¾úÀ» ¶§ ÀÔ·Â¹ŞÀº ¹®ÀÚ¿­°ú Á¤±Ô½ÄÀ» ¸ÅÄ¡½ÃÅ°´Â runÇÔ¼ö È£Ãâ.
+	//ê°ì²´ê°€ ìƒì„±ë˜ì—ˆì„ ë•Œ ì…ë ¥ë°›ì€ ë¬¸ìì—´ê³¼ ì •ê·œì‹ì„ ë§¤ì¹˜ì‹œí‚¤ëŠ” runí•¨ìˆ˜ í˜¸ì¶œ.
 	public CmdExtractor(String recv) {
 		this.testString = recv;
 		run();
 	}
 	
-	//Á¤±Ô½ÄÀ» ¸¸µå°í matcher¿¡ testString°ú Á¤±Ô½ÄÀ» ¸ÅÄ¡½ÃÅ²´Ù.
+	//ì •ê·œì‹ì„ ë§Œë“œê³  matcherì— testStringê³¼ ì •ê·œì‹ì„ ë§¤ì¹˜ì‹œí‚¨ë‹¤.
 	public void run() {
-		//Á¤±Ô½ÄÀ» ÆĞÅÏÀ¸·Î ¸¸µé°í (StringÁß¿¡¼­ '·Î ½ÃÀÛÇÏ°í "°¡ 1°³ ÀÌ»óÀÎ Cmd)
+		//ì •ê·œì‹ì„ íŒ¨í„´ìœ¼ë¡œ ë§Œë“¤ê³  (Stringì¤‘ì—ì„œ 'ë¡œ ì‹œì‘í•˜ê³  "ê°€ 1ê°œ ì´ìƒì¸ Cmd)
 		Pattern pattern = Pattern.compile("'\"+");
-		//ÆĞÅÏÀ» tesstString°ú ¸ÅÄ¡½ÃÅ²´Ù.
+		//íŒ¨í„´ì„ tesstStringê³¼ ë§¤ì¹˜ì‹œí‚¨ë‹¤.
 		matcher = pattern.matcher(testString);
 	}
 	
-	//È£ÃâµÉ °æ¿ì ¸Â´Â find¸¦ »ç¿ëÇÏ¿© ¸ÅÄ¡µÇ´Â ¹®ÀÚ¿­À» ÇÏ³ª Ã£°í
-	//groupÀ¸·Î ¹®ÀÚ¿­À» È£ÃâÇÑ ´ÙÀ½ ÇØ´çÇÏ´Â CMD¸¦ enum ÇüÅÂ·Î ¹İÈ¯ÇÑ´Ù.
-	//È£ÃâµÉ ‹š¸¶´Ù ±× ´ÙÀ½¹ø ÇØ´çÇÏ´Â ¹®ÀÚ¿­À» Ã£¾Æ³½´Ù.
+	//í˜¸ì¶œë  ê²½ìš° ë§ëŠ” findë¥¼ ì‚¬ìš©í•˜ì—¬ ë§¤ì¹˜ë˜ëŠ” ë¬¸ìì—´ì„ í•˜ë‚˜ ì°¾ê³ 
+	//groupìœ¼ë¡œ ë¬¸ìì—´ì„ í˜¸ì¶œí•œ ë‹¤ìŒ í•´ë‹¹í•˜ëŠ” CMDë¥¼ enum í˜•íƒœë¡œ ë°˜í™˜í•œë‹¤.
+	//í˜¸ì¶œë  ë–„ë§ˆë‹¤ ê·¸ ë‹¤ìŒë²ˆ í•´ë‹¹í•˜ëŠ” ë¬¸ìì—´ì„ ì°¾ì•„ë‚¸ë‹¤.
 	public static Cmds checkTheCmd() {
 
 		if(matcher.find()) {
