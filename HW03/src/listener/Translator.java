@@ -39,6 +39,7 @@ public class Translator {
 		
 		switch(getOption(args)) {
 			case PRETTYPRINT :
+				//시작
 				walker.walk(new MiniCPrintListener(), tree);
 				break;
 			default :
