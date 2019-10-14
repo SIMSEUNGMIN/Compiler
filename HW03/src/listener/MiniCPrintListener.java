@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import generated.*;
 import generated.MiniCParser.If_stmtContext;
 
+//201702034 심승민
 public class MiniCPrintListener extends MiniCBaseListener {
 	ParseTreeProperty<String> newTexts = new ParseTreeProperty<String>();
 	
