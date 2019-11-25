@@ -54,11 +54,9 @@ public class BytecodeGenListenerHelper {
 		return ctx.getChildCount() == 5 ;
 	}
 	
-	/////////////////////////////////////////////
+	//함수의 반환형이 void인지 확인
 	static boolean isVoidF(Fun_declContext ctx) {
 		String funType = ctx.type_spec().getText();
-		
-//		System.out.println("BytecodeGenListenerHelper isVoidF : " + funType);
 		
 		if(funType == "void") {
 			return true;
@@ -83,18 +81,16 @@ public class BytecodeGenListenerHelper {
 		return "32";
 	}
 	
-	////////////////////////////////////////////////////
+	// 타입 확인
 	static String getTypeText(Type_specContext typespec) {
 		String typeString = typespec.getText();
-//		System.out.println("BytecodGenListenerHelper getTypeText : " + typeString);
 		return typeString;
 	}
 	
 	
-	// params ??????????????????????????????????????????????????????????확인 필요 파라미터 여러개
+	// params
 	static String getParamName(ParamContext param) {
 		String paramName = param.type_spec().getText();
-//		System.out.println("BytecodGenListenerHelper getParamName : " + paramName);
 		return paramName;
 	}
 	
@@ -108,39 +104,43 @@ public class BytecodeGenListenerHelper {
 		return typeText;
 	}
 	
-	///////////////////////////////////////////////////////////
+	// 지역변수 이름 반환
 	static String getLocalVarName(Local_declContext local_decl) {
 		//지역변수 이름 반환
 		String localName = local_decl.IDENT().getText();
-		//System.out.println("BytecodeGenListenerHelper getLocalVarName : " + localName);
 		return localName;
 	}
 	
-	//////////////////////////////////////////////
+	// 함수 이름 반환
 	static String getFunName(Fun_declContext ctx) {
-		//함수 이름 반환
 		String funName = ctx.children.get(1).getText();
 		return funName;
 	}
 	
-	//채워야함, 부모를 찾아야 함 ????????????????????????????????????????????????????????????????
+	// 함수 이름 찾음
 	static String getFunName(ExprContext ctx) {
-		// <Fill in>
-		return null;
+		String funName = ctx.children.get(0).getText();
+		return funName;
 	}
 	
 	static boolean noElse(If_stmtContext ctx) {
-		return ctx.getChildCount() < 5;
+		return ctx.getChildCount() < 6;
 	}
 	
-	//채워야함 ????????????????????????????????????????????????????????????????????????????
+	// 클래스의 처음 생성자형태를 채워서 반환
 	static String getFunProlog() {
 		// return ".class public Test .....
 		// ...
 		// invokenonvirtual java/lang/Object/<init>()
 		// return
 		// .end method"
-		return null;
+		return "\n" + ".class public Test" + "\n"
+				+ ".super java/lang/Object" + "\n"
+				+ ".method public <init>()V" + "\n"
+				+ "aload_0" + "\n"
+				+ "invokenonvirtual java/lang/Object/<init>()V" + "\n"
+				+ "return" + "\n"
+				+ ".end method" + "\n";
 	}
 	
 	static String getCurrentClassName() {
